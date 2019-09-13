@@ -7,6 +7,7 @@ const Home = () => (
   <div>
     <Head>
       <title>Home</title>
+      <link rel="shortcut icon" href="/nextjs-test/favicon.ico" />
     </Head>
 
     <Nav />
