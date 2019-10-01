@@ -40,7 +40,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./public
+        PUBLISH_DIR: ./out
       run: |
         wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2.4.0/entrypoint.sh
         bash ./entrypoint.sh
