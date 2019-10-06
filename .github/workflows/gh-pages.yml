@@ -28,21 +28,21 @@ jobs:
     - name: add nojekyll
       run: touch ./out/.nojekyll
 
-#    - name: deploy
-#      uses: peaceiris/actions-gh-pages@v2.5.0
-#      # uses: docker://peaceiris/gh-pages:v2.5.0
-#      env:
-#        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-#        PUBLISH_BRANCH: gh-pages
-#        PUBLISH_DIR: ./out
-
-    - name: Deploy (script)
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v2.5.0
+      # uses: docker://peaceiris/gh-pages:v2.5.0
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./out
-        SCRIPT_MODE: true
-      run: |
-        wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2.5.0/entrypoint.sh
-        bash ./entrypoint.sh
+
+#    - name: Deploy (script)
+#      env:
+#        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+#        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        PUBLISH_BRANCH: gh-pages
+#        PUBLISH_DIR: ./out
+#        SCRIPT_MODE: true
+#      run: |
+#        wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2.5.0/entrypoint.sh
+#        bash ./entrypoint.sh
