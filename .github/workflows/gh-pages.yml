@@ -36,8 +36,8 @@ jobs:
         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./out
-      with:
-        forceOrphan: true
+      # with:
+      #   forceOrphan: true
 
 #    - name: Deploy (script)
 #      env:
