@@ -24,24 +24,25 @@ jobs:
 
     - run: touch ./out/.nojekyll
 
-    - name: deploy
-      uses: peaceiris/actions-gh-pages@v2
-      # uses: docker://peaceiris/gh-pages:v2
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./out
-      with:
-        forceOrphan: true
-
-#    - name: Deploy (script)
+#    - name: deploy
+#      uses: peaceiris/actions-gh-pages@v2
+#      # uses: docker://peaceiris/gh-pages:v2
 #      env:
 #        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 #        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        PUBLISH_BRANCH: gh-pages
 #        PUBLISH_DIR: ./out
-#        SCRIPT_MODE: true
-#      run: |
-#        wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2.5.0/entrypoint.sh
-#        bash ./entrypoint.sh
+#      with:
+#        forceOrphan: true
+
+    - name: Deploy (script)
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./out
+        SCRIPT_MODE: true
+        INPUT_FORCEORPHAN: true
+      run: |
+        wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
+        bash ./entrypoint.sh
