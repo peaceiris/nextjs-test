@@ -32,9 +32,9 @@ jobs:
         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./out
-      with:
-        username: "iris"
-        useremail: "iris@peaceiris.com"
+      # with:
+      #   username: "iris"
+      #   useremail: "iris@peaceiris.com"
       #   forceOrphan: true
 
 #    - name: Deploy (script)
