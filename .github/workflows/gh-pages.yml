@@ -2,10 +2,10 @@ name: github pages
 
 on:
   push:
-    tags:
-    - 'v*.*.*'
-    # branches:
-    # - master
+    branches:
+    - master
+    # tags:
+    # - 'v*.*.*'
 
 jobs:
   build-deploy:
@@ -39,9 +39,8 @@ jobs:
 
     - name: Prepare tag
       id: prepare_tag
-      if: startsWith(github.ref, 'refs/tags/')
       run: |
-        TAG_NAME="${GITHUB_REF##refs/tags/}"
+        TAG_NAME="v$(jq -r '.version' ./package.json)"
         echo "::set-output name=tag_name::${TAG_NAME}"
         echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
 
