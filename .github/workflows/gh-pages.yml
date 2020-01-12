@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - master
+    tags:
+    - 'v*.*.*'
 
 jobs:
   build-deploy:
@@ -24,15 +26,25 @@ jobs:
 
     - run: touch ./out/.nojekyll
 
+    - name: Prepare tag
+      id: prepare_tag
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        TAG_NAME="${GITHUB_REF##refs/tags/}"
+        # TAG_NAME="v$(jq -r '.version' ./package.json)"
+        echo "::set-output name=tag_name::deploy-${TAG_NAME}"
+
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2
+      uses: peaceiris/actions-gh-pages@feat-tagname-option
       # uses: docker://peaceiris/gh-pages:v2
       env:
         # ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./out
-      # with:
+      with:
+        tagName: ${{ steps.prepare_tag.outputs.tag_name }}
+        tagMessage: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
       #   username: "iris"
       #   useremail: "iris@peaceiris.com"
       #   forceOrphan: true
