@@ -46,7 +46,7 @@ jobs:
         echo "::set-output name=tag_name::deploy-${TAG_NAME}"
 
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@feat-tagname-option
+      uses: peaceiris/actions-gh-pages@v2.10.0-0
       # uses: docker://peaceiris/gh-pages:v2
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
