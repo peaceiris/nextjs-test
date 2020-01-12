@@ -2,10 +2,10 @@ name: github pages
 
 on:
   push:
-    branches:
-    - master
     tags:
     - 'v*.*.*'
+    # branches:
+    # - master
 
 jobs:
   build-deploy:
