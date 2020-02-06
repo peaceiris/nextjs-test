@@ -3,72 +3,53 @@ name: github pages
 on:
   push:
     branches:
-    - master
+      - master
     tags:
-    - 'v*.*.*'
+      - 'v*.*.*'
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
 
-    - name: Get yarn cache
-      id: yarn-cache
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - uses: actions/cache@v1
-      with:
-        path: ${{ steps.yarn-cache.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-    - run: yarn install
+      - run: yarn install
+      - run: yarn build
+      - run: yarn export
+      - run: touch ./out/.nojekyll
 
-    - run: yarn build
+      - name: Prepare tag
+        id: prepare_tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG_NAME="${GITHUB_REF##refs/tags/}"
+          echo "::set-output name=tag_name::${TAG_NAME}"
+          echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
 
-    - run: yarn export
-
-    - run: touch ./out/.nojekyll
-
-    - name: Prepare tag
-      id: prepare_tag
-      if: startsWith(github.ref, 'refs/tags/')
-      run: |
-        TAG_NAME="${GITHUB_REF##refs/tags/}"
-        echo "::set-output name=tag_name::${TAG_NAME}"
-        echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.10.0-1
-      # uses: docker://peaceiris/gh-pages:v2.10.0-1
-      env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./out
-      with:
-        tagName: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
-        tagMessage: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
-        tagOverwrite: true
-      #   username: "iris"
-      #   useremail: "iris@peaceiris.com"
-      #   forceOrphan: true
-
-#    - name: Deploy (script)
-#      env:
-#        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-#        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        PUBLISH_BRANCH: gh-pages
-#        PUBLISH_DIR: ./out
-#        SCRIPT_MODE: true
-#        INPUT_FORCEORPHAN: true
-#      run: |
-#        wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
-#        bash ./entrypoint.sh
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          tag_name: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
+          tag_message: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
+          user_name: "iris"
+          user_email: "iris@peaceiris.com"
+          force_orphan: true
