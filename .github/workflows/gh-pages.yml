@@ -48,8 +48,8 @@ jobs:
           #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-          tag_name: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
-          tag_message: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
-          user_name: "iris"
-          user_email: "iris@peaceiris.com"
-          force_orphan: true
+          #tag_name: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
+          #tag_message: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
+          #user_name: "iris"
+          #user_email: "iris@peaceiris.com"
+          #force_orphan: true
