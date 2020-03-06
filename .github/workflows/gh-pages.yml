@@ -47,7 +47,7 @@ jobs:
         with:
           #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: master
+          publish_branch: gh-pages
           publish_dir: ./out
           # external_repository:
           allow_empty_commit: true
