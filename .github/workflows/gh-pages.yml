@@ -42,7 +42,7 @@ jobs:
           echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3.4.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
           #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,4 +58,4 @@ jobs:
           tag_name: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
           tag_message: 'Deploy ${{ steps.prepare_tag.outputs.tag_name }}'
           # disable_nojekyll: true
-          # cname: test-nextjs.peaceiris.com
+          cname: 'test-nextjs.peaceiris.com'
